@@ -11,7 +11,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import br.com.akrasia.alurachallengebackend7.model.Photo;
+import br.com.akrasia.alurachallengebackend7.model.photo.Photo;
+import br.com.akrasia.alurachallengebackend7.model.photo.PhotoData;
 import br.com.akrasia.alurachallengebackend7.repository.PhotoRepository;
 
 @Service
@@ -34,14 +35,15 @@ public class PhotoStorageService {
         return photo;
     }
 
-    public byte[] getPhotoData(Long id) throws IOException {
+    public PhotoData getPhotoData(Long id) throws IOException {
 
         Optional<Photo> optionalPhoto = repository.findById(id);
 
         if (optionalPhoto.isPresent()) {
             Photo photo = optionalPhoto.get();
             String filePath = FOLDER_PATH + photo.getId() + "_" + photo.getName();
-            return Files.readAllBytes(Paths.get(filePath));
+            byte[] data = Files.readAllBytes(Paths.get(filePath));
+            return new PhotoData(data, photo.getType());
         } else {
             throw new IOException("Photo with ID: " + id + " not found");
         }

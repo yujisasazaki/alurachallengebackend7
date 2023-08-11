@@ -1,4 +1,4 @@
-package br.com.akrasia.alurachallengebackend7.model;
+package br.com.akrasia.alurachallengebackend7.model.comment;
 
 import org.springframework.web.multipart.MultipartFile;
 

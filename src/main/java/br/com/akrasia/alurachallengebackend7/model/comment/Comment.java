@@ -1,5 +1,6 @@
-package br.com.akrasia.alurachallengebackend7.model;
+package br.com.akrasia.alurachallengebackend7.model.comment;
 
+import br.com.akrasia.alurachallengebackend7.model.photo.Photo;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -9,10 +10,12 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "comment")
 @AllArgsConstructor
+@NoArgsConstructor
 @Getter
 public class Comment {
 
