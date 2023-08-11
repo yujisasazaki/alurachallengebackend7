@@ -10,6 +10,7 @@ import br.com.akrasia.alurachallengebackend7.model.comment.CommentForm;
 import br.com.akrasia.alurachallengebackend7.model.comment.CommentResponse;
 import br.com.akrasia.alurachallengebackend7.model.photo.Photo;
 import br.com.akrasia.alurachallengebackend7.repository.CommentRepository;
+import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class CommentService {
@@ -41,5 +42,10 @@ public class CommentService {
         Photo photo = photoService.storePhoto(form.file());
         comment.update(photo, form.author(), form.content());
         repository.save(comment);
+    }
+
+    public void deleteComment(Long id) {
+        if (!repository.existsById(id)) throw new EntityNotFoundException("Comment not found");
+        repository.deleteById(id);        
     }    
 }
