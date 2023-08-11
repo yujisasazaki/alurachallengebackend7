@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,15 +24,21 @@ public class CommentController {
     @Autowired
     private CommentService commentService;
 
-    @GetMapping("/{id}")
-    public ResponseEntity<CommentResponse> getComment(@PathVariable Long id, HttpServletRequest request) throws IOException {
-        String baseUrl = request.getRequestURL().toString().replace(request.getRequestURI(), request.getContextPath());        
-        return ResponseEntity.ok(commentService.getComment(id, baseUrl));
-    }
-
     @PostMapping
     public ResponseEntity<String> saveComment(@Valid CommentForm form) throws IOException {
         commentService.saveComment(form);
         return ResponseEntity.ok("Comment saved");
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<CommentResponse> getComment(@PathVariable Long id, HttpServletRequest request) throws IOException {
+        String baseUrl = request.getRequestURL().toString().replace(request.getRequestURI(), request.getContextPath());
+        return ResponseEntity.ok(commentService.getComment(id, baseUrl));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<String> updateComment(@PathVariable Long id, @Valid CommentForm form) throws IOException {
+        commentService.updateComment(id, form);
+        return ResponseEntity.ok("Comment updated");
     }
 }

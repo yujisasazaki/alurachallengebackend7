@@ -31,4 +31,16 @@ public class Comment {
     @JoinColumn(name = "photo_id")
     private Photo photo;
 
+    public void update(Photo photo, String author, String content) {
+        if (photo != null) {
+            this.photo = photo;
+        }
+        if (author != null) {
+            this.author = author;
+        }
+        if (content != null) {
+            this.content = content;
+        }
+    }
+
 }

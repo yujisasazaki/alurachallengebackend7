@@ -33,5 +33,13 @@ public class CommentService {
         String photoUrl = baseUrl + "/photo/" + comment.getPhoto().getId().toString();
         CommentResponse response = new CommentResponse(comment, photoUrl);
         return response;
+    }
+
+    public void updateComment(Long id, CommentForm form) throws IOException {
+        
+        Comment comment = repository.findById(id).get();
+        Photo photo = photoService.storePhoto(form.file());
+        comment.update(photo, form.author(), form.content());
+        repository.save(comment);
     }    
 }
