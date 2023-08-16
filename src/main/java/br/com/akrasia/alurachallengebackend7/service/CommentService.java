@@ -1,6 +1,7 @@
 package br.com.akrasia.alurachallengebackend7.service;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -47,5 +48,15 @@ public class CommentService {
     public void deleteComment(Long id) {
         if (!repository.existsById(id)) throw new EntityNotFoundException("Comment not found");
         repository.deleteById(id);        
+    }
+
+    public List<CommentResponse> getRandomComments(int quantity, String baseUrl) {
+        List<Comment> randomComments = repository.findRandomComments(quantity).get();
+        List<CommentResponse> responses = randomComments.stream().map(comment -> {
+            String photoUrl = baseUrl + "/photo/" + comment.getPhoto().getId().toString();
+            return new CommentResponse(comment, photoUrl);
+        }).toList();
+
+        return responses;
     }    
 }
