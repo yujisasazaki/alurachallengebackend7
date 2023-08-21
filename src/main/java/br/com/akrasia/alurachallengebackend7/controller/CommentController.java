@@ -27,6 +27,11 @@ public class CommentController {
 
     @PostMapping
     public ResponseEntity<String> saveComment(@Valid CommentForm form) throws IOException {
+        //Check if file is an image
+        if (!form.file().getContentType().startsWith("image")) {
+            throw new IOException("File is not an image");
+        }
+        
         commentService.saveComment(form);
         return ResponseEntity.ok("Comment saved");
     }
