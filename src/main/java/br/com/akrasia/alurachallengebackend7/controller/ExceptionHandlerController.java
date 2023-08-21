@@ -24,7 +24,7 @@ public class ExceptionHandlerController {
 
     @ExceptionHandler(IOException.class)
     public ResponseEntity<String> handleIOException(IOException e) {
-        return ResponseEntity.badRequest().body("Error saving photo");
+        return ResponseEntity.badRequest().body(e.getMessage());
     }
     
 }
