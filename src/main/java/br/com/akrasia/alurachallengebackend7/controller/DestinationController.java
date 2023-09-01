@@ -1,6 +1,7 @@
 package br.com.akrasia.alurachallengebackend7.controller;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.akrasia.alurachallengebackend7.model.destination.DestinationForm;
@@ -29,6 +31,12 @@ public class DestinationController {
     public ResponseEntity<String> saveDestination(@Valid DestinationForm form) throws IOException {        
         destinationService.saveDestination(form);
         return ResponseEntity.ok("Destination saved");
+    }
+
+    @GetMapping
+    public ResponseEntity<List<DestinationResponse>> getDestinationByName(@RequestParam String name, HttpServletRequest request) {
+        String baseUrl = request.getRequestURL().toString().replace(request.getRequestURI(), request.getContextPath());
+        return ResponseEntity.ok(destinationService.getDestination(name, baseUrl));
     }
 
     @GetMapping("/{id}")

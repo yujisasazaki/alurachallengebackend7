@@ -1,6 +1,8 @@
 package br.com.akrasia.alurachallengebackend7.service;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,6 +35,18 @@ public class DestinationService {
         String photoUrl = baseUrl + "/photo/" + destination.getPhoto().getId().toString();
         DestinationResponse response = new DestinationResponse(destination, photoUrl);
         return response;
+    }
+
+    public List<DestinationResponse> getDestination(String name, String baseUrl) {
+        List<Destination> destinations = repository.findByName(name).get();
+        if (destinations.isEmpty()) {
+            throw new EntityNotFoundException("Destination not found");
+        }
+        List<DestinationResponse> responses = destinations.stream().map(destination -> {
+            String photoUrl = baseUrl + "/photo/" + destination.getPhoto().getId().toString();
+            return new DestinationResponse(destination, photoUrl);
+        }).collect(Collectors.toList());
+        return responses;
     }
 
     public void updateDestination(Long id, DestinationForm form) throws IOException {            
